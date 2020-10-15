@@ -15,18 +15,18 @@ def search_ids_names(current_id, accum_dict, plan):
 
     return accum_dict
 
-def main(): 
+def main():
     requests.packages.urllib3.disable_warnings()
 
     # variables are env vars from a 'get' or 'put' concourse container
-    concourse_hostname = sys.argv[1] 
+    concourse_hostname = sys.argv[1]
     concourse_username = sys.argv[2]
     concourse_password = sys.argv[3]
     build_number = sys.argv[4]
 
     # Login
     # OAuth2 token request
-    url = '{0}/sky/token'.format(concourse_hostname)
+    url = '{0}/sky/issuer/token'.format(concourse_hostname)
     payload = {
       'grant_type': 'password',
       'username': concourse_username,
