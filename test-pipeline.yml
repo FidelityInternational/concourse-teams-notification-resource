@@ -10,9 +10,9 @@ resources:
 - name: teams-alert
   type: teams-notification
   source:
-    webhook_url: <webhook>
-    concourse_username: <username>
-    concourse_password: <password>
+    url: ((webhook))
+    atc_username: ((atc_username))
+    atc_password: ((atc_password))
 
 jobs:
 - name: monitoring-test
@@ -26,7 +26,7 @@ jobs:
         image_resource:
           type: docker-image
           source:
-            repository: paasmule/curl-ssl-jq
+            repository: fidelityinternational/paas-tools-go
         run:
           path: bash
           args:
@@ -46,7 +46,7 @@ jobs:
         image_resource:
           type: docker-image
           source:
-            repository: paasmule/curl-ssl-jq
+            repository: fidelityinternational/paas-tools-go
         run:
           path: bash
           args:
