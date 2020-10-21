@@ -8,6 +8,8 @@ exec 1>&2 # redirect all output to stderr for logging
 # for jq
 PATH=/usr/local/bin:$PATH
 
+
+
 payload=$(mktemp /tmp/resource-in.XXXXXX)
 
 cat > "${payload}" <&0
@@ -28,6 +30,8 @@ fi
 if [[ "${proxy}" == "false" ]]; then
   unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
 fi
+
+echo "Running teams error capture..."
 
 if [ "${ATC_EXTERNAL_URL:-}" != "" ] && [ "${atc_username:-}" != "" ] && [ "${atc_password:-}" != "" ]; then
     error_context="$(python /opt/resource/teams_error_capture.py \
