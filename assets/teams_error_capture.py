@@ -23,6 +23,7 @@ def main():
     concourse_username = sys.argv[2]
     concourse_password = sys.argv[3]
     build_number = sys.argv[4]
+    log_max_length = int(sys.argv[5])
 
     # Login
     # OAuth2 token request
@@ -104,7 +105,11 @@ def main():
 
 # messagecards for teams require \n\n for a new line
     output=("\n").join("\n--------------\n".join([task_map[k], v]) for k,v in list(logs.items()))
-    print(json.dumps(output.replace("\n","\n\n")))
+    output = output.replace("\n","\n\n")
+    if len(output) > log_max_length:
+        output = output[:log_max_length] + f'\n\n... truncating error log - message over {log_max_length}'
+
+    print(json.dumps(output))
 
 if __name__ == '__main__':
     main()

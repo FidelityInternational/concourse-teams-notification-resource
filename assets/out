@@ -8,13 +8,13 @@ exec 1>&2 # redirect all output to stderr for logging
 # for jq
 PATH=/usr/local/bin:$PATH
 
-
-
+# To test out script, run `/opt/resource/out < /tmp/resource-in.XXXXXX` using the generated tmp file.
 payload=$(mktemp /tmp/resource-in.XXXXXX)
 
 cat > "${payload}" <&0
 
 webhook_url="$(jq -r '.source.url' < "${payload}")"
+log_max_length="$(jq -r '.source.log_max_length // 19000' < "${payload}")"
 build_status="$(jq -r '(.params.status // null)' < "${payload}")"
 proxy="$(jq -r '(.params.proxy // null)' < "${payload}")"
 atc_username="$(jq -r '.source.atc_username' < "${payload}")"
@@ -38,7 +38,8 @@ if [ "${ATC_EXTERNAL_URL:-}" != "" ] && [ "${atc_username:-}" != "" ] && [ "${at
     "${ATC_EXTERNAL_URL}" \
     "${atc_username}" \
     "${atc_password}" \
-    "${BUILD_ID}")"
+    "${BUILD_ID}" \
+    "${log_max_length}")"
 else
     error_context="No error context possible without valid ATC url and credentials."
 fi
@@ -57,7 +58,6 @@ case "$build_status" in
     exit 1
     ;;
 esac
-
 
 message_summary="${BUILD_PIPELINE_NAME} - ${BUILD_JOB_NAME}"
 message_title_link="${ATC_EXTERNAL_URL}/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
