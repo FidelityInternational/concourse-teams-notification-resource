@@ -21,9 +21,11 @@ Source Configuration
 
 The following fields are required if you want to see erroring Concourse task output in the Teams notification:
 
+- url: Teams webhook url
 - atc_external_url: *Optional* The ATC external URL (if username and password is supplied but not the ATC URL, it will attempt to use the standard in-built ATC_EXTERNAL_URL instead)
 - atc_username: *Optional* ATC username is required if atc_external_url is supplied.
 - atc_password: *Optional* ATC password is required if atc_external_url is supplied.
+- log_max_length: *Optional* Log max length can be configured here. Is necessary as Teams has a character limit on messages received.
 
 Example resource config:
 
@@ -33,14 +35,16 @@ resources:
   type: teams-notification
   source:
     url: ((teams_webhook))
+    atc_external_url: ...
     atc_username: ...
     atc_password: ...
+    log_max_length: ...
 ```
 
 Behaviour
 --------
 
-### Sends alert to teams.
+### Sends alert to teams
 
 Send alert to teams with the configured parameters.
 

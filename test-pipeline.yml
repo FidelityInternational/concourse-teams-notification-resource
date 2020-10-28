@@ -13,6 +13,7 @@ resources:
     url: ((webhook))
     atc_username: ((atc_username))
     atc_password: ((atc_password))
+    log_max_length: 13500
 
 jobs:
 - name: monitoring-test
