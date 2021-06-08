@@ -139,7 +139,6 @@ def main():
     sys.stderr.flush()
 
     try:
-        output = ""
         for event in client.events():
             if event.event == 'end':
                 break
@@ -163,7 +162,7 @@ def main():
       logs.pop(resourceTaskId, None)
 
 # messagecards for teams require \n\n for a new line
-    output=("\n").join("\n--------------\n".join([task_map[k], v]) for k,v in list(logs.items()))
+    output=("\n").join("\n--------------\n".join([task_map[k.split('/')[0]], v]) for k,v in list(logs.items()))
     output = output.replace("\n","\n\n")
     if len(output) > log_max_length:
         output = output[:log_max_length] + f'\n\n... truncating error log - message over {log_max_length}'
