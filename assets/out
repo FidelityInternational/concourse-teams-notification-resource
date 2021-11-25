@@ -14,7 +14,7 @@ payload=$(mktemp /tmp/resource-in.XXXXXX)
 cat > "${payload}" <&0
 
 webhook_url="$(jq -r '.source.url' < "${payload}")"
-log_max_length="$(jq -r '.source.log_max_length // 19000' < "${payload}")"
+log_max_length="$(jq -r '.source.log_max_length // 15000' < "${payload}")"
 build_status="$(jq -r '(.params.status // null)' < "${payload}")"
 proxy="$(jq -r '(.params.proxy // null)' < "${payload}")"
 atc_username="$(jq -r '.source.atc_username' < "${payload}")"
